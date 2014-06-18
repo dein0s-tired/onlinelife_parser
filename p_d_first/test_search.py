@@ -13,6 +13,7 @@ class WorldOfTanks_RU(unittest.TestCase):
     
     def test_SearchUser(self):
         driver = self.driver
+        #todo: define steps
         driver.get(self.base_url + "/")
         driver.find_element_by_xpath("//li[6]/span").click()
         driver.find_element_by_link_text(u"Игроки").click()
