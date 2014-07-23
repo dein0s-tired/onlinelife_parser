@@ -61,23 +61,19 @@ def front_back(a, b):
     a_back = ''
     b_front = ''
     b_back = ''
-    # two_strings = {'a': a, 'b': b}
-    # print two_strings
-    # for key in two_strings.keys():
-    #     if len(two_strings[key]) % 2 == 0:
-    # if len(a) % 2 == 0:
-    #     a_front = a[:len(a) / 2]
-    #     a_back = a[len(a) / 2:]
-    # else:  # len(a) % 2 == 1:
-    #     a_front = a[:len(a) / 2 + 1]
-    #     a_back = a[len(a) / 2 + 1:]
-    # if len(b) % 2 == 0:
-    #     b_front = b[:len(b) / 2]
-    #     b_back = b[len(b) / 2:]
-    # else:  # len(b) % 2 == 1:
-    #     b_front = b[:len(b) / 2 + 1]
-    #     b_back = b[len(b) / 2 + 1:]
-    # return a_front + b_front + a_back + b_back
+    if len(a) % 2 == 0:
+        a_front = a[:len(a) / 2]
+        a_back = a[len(a) / 2:]
+    else:  # len(a) % 2 == 1:
+        a_front = a[:len(a) / 2 + 1]
+        a_back = a[len(a) / 2 + 1:]
+    if len(b) % 2 == 0:
+        b_front = b[:len(b) / 2]
+        b_back = b[len(b) / 2:]
+    else:  # len(b) % 2 == 1:
+        b_front = b[:len(b) / 2 + 1]
+        b_back = b[len(b) / 2 + 1:]
+    return a_front + b_front + a_back + b_back
 
 
 # Simple provided test() function used in main() to print
