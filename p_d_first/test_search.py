@@ -1,17 +1,18 @@
 # coding: utf-8
 from selenium import webdriver
-import unittest
+from unittest import TestCase, main
 
 
-class WorldOfTanks_RU(unittest.TestCase):
+class WorldOfTanksRU(TestCase):
+
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
         self.base_url = 'http://worldoftanks.ru'
         self.verificationErrors = []
         self.accept_next_alert = True
-    
-    def test_searchPlayer(self):
+
+    def test_search_player(self):
         driver = self.driver
         #todo: define steps
         #/community/accounts/
@@ -34,5 +35,5 @@ class WorldOfTanks_RU(unittest.TestCase):
         self.assertEqual([], self.verificationErrors)
 
 if __name__ == "__main__":
-    unittest.main()
+    main()
 
