@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<playlist xmlns="http://xspf.org/ns/0/" xmlns:vlc="http://www.videolan.org/vlc/playlist/ns/0/" version="1">
+	<title>Плейлист</title>
+	<trackList>
+		<track>
+			<location>http://video60.online-life.me/video/8bab4d06a43f8ee4f83224d39b5fc13f/qqeWmqylm5SfmLOnm5GqpZPX492n693br6I/tync/temp_video17/serials2/Grimm/s_04/Grimm.s04e06.flv</location>
+			<title>Гримм [4x06] LostFilm</title>
+			<duration>2589320</duration>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>0</vlc:id>
+				<vlc:option>network-caching=2000</vlc:option>
+			</extension>
+		</track>
+		<track>
+			<location>http://video60.online-life.me/video/58b11b8c64c52f0ebf65e1ee8360ac1d/qqeWmqylm5SgnbOnm5GqpZPX492n693br6I/tync/temp_video3/serials/NCIS.Spec/s_12/NCIS.Spec.s12e07t.flv</location>
+			<title>Морская полиция: Спецотдел [12x07] To4ka</title>
+			<duration>2636960</duration>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>1</vlc:id>
+				<vlc:option>network-caching=2000</vlc:option>
+			</extension>
+		</track>
+	</trackList>
+	<extension application="http://www.videolan.org/vlc/playlist/0">
+			<vlc:item tid="0"/>
+			<vlc:item tid="1"/>
+	</extension>
+</playlist>
