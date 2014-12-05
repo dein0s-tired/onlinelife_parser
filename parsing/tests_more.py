@@ -3,7 +3,6 @@ from lxml import etree
 import datetime
 
 
-
 def xml_track_factory(episodes):
     _now = datetime.datetime.now()
     # cur_date = _now.year + _now.month + _now.day
@@ -30,9 +29,11 @@ def xml_track_factory(episodes):
         xml_location_track.text = str(episode[0])
         xml_title_track = etree.SubElement(xml_track_tracklist, 'title')
         xml_title_track.text = str(episode[1])
+    output = open(playlist_path + playlist_name, 'w+').write(
+        etree.tostring(xml_playlist, pretty_print=True, encoding='utf-8'))
 
     # for i in range(0, 3):
-    #     xml_track_tracklist = etree.SubElement(xml_tracklist_playlist, 'track')
+    # xml_track_tracklist = etree.SubElement(xml_tracklist_playlist, 'track')
     #     xml_location_track = etree.SubElement(xml_track_tracklist, 'location')
     #     xml_location_track.text = 'some http'
     #     xml_title_track = etree.SubElement(xml_track_tracklist, 'title')
@@ -40,7 +41,8 @@ def xml_track_factory(episodes):
     # playlist_file = open(playlist_path, 'w+')
     # output = playlist_file.write(etree.tostring(xml_playlist, pretty_print=True, encoding='utf-8'))
     # playlist_file.close()
-    return open(playlist_path + playlist_name, 'w+').write(etree.tostring(xml_playlist, pretty_print=True, encoding='utf-8'))
+    return output
+
 
 list_of_lists = []
 list_one = [2, 2]
@@ -50,12 +52,12 @@ list_of_lists.append(list_two)
 # print xml_track_factory(list_of_lists)
 
 # def create_file():
-#     path = 'd:\\PROJECTS\\github\\neverless-to-test\\parsing\\data\\'
+# path = 'd:\\PROJECTS\\github\\neverless-to-test\\parsing\\data\\'
 #     name = str(datetime.datetime.now().second) + '.xspf'
 #     return open(path + name, 'w').close()
 #
 print xml_track_factory(list_of_lists)
-    # print etree.tostring(xml_playlist, pretty_print=True)
+# print etree.tostring(xml_playlist, pretty_print=True)
 #
 # xhtml = etree.Element('tatata', "{http://www.w3.org/1999/xhtml}vlc")
 # # body = etree.SubElement(xhtml, "{http://www.w3.org/1999/xhtml}body")
@@ -99,9 +101,9 @@ print xml_track_factory(list_of_lists)
 #         print el.tag, el.attrib
 # for track in root.findall('track'):
 #     print track
-    # location = track.find('location').text
-    # title = track.get('title')
-    # print title, location
+# location = track.find('location').text
+# title = track.get('title')
+# print title, location
 # xml_file.close()
 
 
