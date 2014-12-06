@@ -25,21 +25,21 @@ def timer(f):
         return res
     return tmp
 
-#
-# @timer
-# def get_link():
-#     url = 'http://www.online-life.me/2377-bruklin-9-9-2013.html'
-#     url_pattern = r'https?://[^\s<>"]+'
-#     playlist_pattern = 'all_s.txt'
-#     with Profiler():
-#         txt = urllib.urlopen(url).read()
-#     with Profiler():
-#         links = re.compile(url_pattern).findall(txt)
-#         for single_link in links:
-#             if single_link.find(playlist_pattern) > -1:
-#                 return single_link
 
-# get_link()
+def get_link(url):
+    serials_playlists = []
+    url_pattern = r'https?://[^\s<>"]+'
+    playlist_pattern = 'all_s.txt'
+    for item in url:
+        txt = urllib.urlopen(item).read()
+        links = re.compile(url_pattern).findall(txt)
+        for single_link in links:
+            if single_link.find(playlist_pattern) > -1:
+                serials_playlists.append(single_link)
+                break
+    return serials_playlists
+
+# print get_link()
 """
 def get_single_serial_data(url, only_last_episode=True):
     all_serial_episodes = []

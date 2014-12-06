@@ -1,26 +1,19 @@
 # coding=utf-8
-__author__ = 'dein0s'
-
-from selenium import webdriver
-# import urllib2
-import re
 import os
-import json
-
+from selenium import webdriver
 from waiting import wait as wait_lib
 
+__author__ = 'dein0s'
 
-class Browser(object):
 
+class BrowserPhantomJS(object):
     def __init__(self):
         self.driver = webdriver.PhantomJS('phantomjs.exe')
-        # self.driver = webdriver.Firefox()
         self.main_url = 'http://www.online-life.me/'
         self.fav_url = 'http://www.online-life.me/favorites/'
         self.user = os.getenv('LIFE_USER')
         self.password = os.getenv('LIFE_PWD')
         self.timeout = 60
-        # self.driver.implicitly_wait(self.timeout/3)
 
     def wait(self, *args, **kwargs):
         """
@@ -44,7 +37,7 @@ class Browser(object):
 
     def open_fav_url_and_login(self):
         login_link_xpath = '//div[contains(@class, "loginpanel")]/a[contains(@class, "btn-drop")]'
-        login_name_xpath ='//input[contains(@name, "login_name")]'
+        login_name_xpath = '//input[contains(@name, "login_name")]'
         login_pwd_xpath = '//input[contains(@name, "login_password")]'
         login_submit_xpath = '//input[contains(@type, "submit")]'
         self.driver.get(self.main_url)
@@ -64,91 +57,13 @@ class Browser(object):
         self.wait(lambda: sort_order_panel.is_displayed())
 
     def get_serials_links(self):  # todo visit all green links before close
-        serial_block_xpath = '//div[contains(@class, "custom-poster")]/a'
-        # only_new_xpath = '//div[contains(@class, "custom-poster") and contains(@style, "background:lightgreen")]/a'
+        only_new_xpath = '//div[contains(@class, "custom-poster") and contains(@style, "background:lightgreen")]/a'
         serials_links = []
         self.open_fav_url_and_login()
-        serial_posters = self.driver.find_elements_by_xpath(serial_block_xpath)
+        serial_posters = self.driver.find_elements_by_xpath(only_new_xpath)
         for item in serial_posters:
             item_link = item.get_attribute('href')
             serials_links.append(item_link)
-        return serials_links
-
-    def get_links_for_episode_in_season(self):
-        serial_links = self.get_serials_links()
-        self.driver.get('http://www.online-life.me/index.php?action=logout')
-        # self.driver.close()
-        playlist_links = []
-        for link in serial_links:
-            url_link_pattern = r'https?://[^\s<>"]+'
-            self.driver.get(link)
-            player_object = self.driver.find_element_by_xpath('//param[contains(@name, "flashvars")]')
-            txt_link = re.compile(url_link_pattern).findall(player_object.get_attribute('value'))
-            playlist_links.append(txt_link)
-            # self.driver.get(txt_link)
-            # playlist_data = json.loads(self.driver.find_element_by_xpath('//body')).text.strip()
-            # print playlist_data
+        self.driver.get('http://www.online-life.me/index.php?action=logout')  # todo visit all links and close
         self.driver.close()
-        return playlist_links
-
-
-        # # todo add login, grep all green elements
-        # # driver = webdriver.PhantomJS(
-        # #     'f:\QA\installed\phantomJS_with_flash\phantomjs.exe')  # phantomjs with flash support
-        # link_pattern = r'https?://[^\s<>"]+'
-        # # driver.get(url)
-        # # player_object = driver.find_element_by_xpath('//param[contains(@name, "flashvars")]')
-        # for item in player_object:
-        #     playlist_link = re.compile(link_pattern).findall(player_object.get_attribute('value'))
-        #     # last_update_text = driver.find_element_by_xpath('//font[contains(@style, "font-weight:bold;font-size:18px")]').text.strip()  # todo filter multiple series
-        #     driver.get(playlist_link)
-        #     playlist_data = json.loads(driver.find_element_by_xpath('//body').text.strip())
-        #     # pdb.set_trace()
-        #     #episode_links = re.compile(link_pattern).findall(playlist_data[u'playlist'][episode - 1]['file'])
-        #     # episode_links = re.compile(link_pattern).findall(playlist_data[u'playlist'][season - 1]['playlist'][episode - 1]['file'])
-        #     # parts = str(episode_links[0]).strip('"/"')
-        # driver.close()
-        # print playlist_data
-        # # print episode_links
-
-
-# print Browser().get_links_for_episode_in_season()
-
-"""
-def get_player_object(driver, url):
-    driver.get(url)
-    player_object = driver.find_element_by_xpath('//param[contains(@name, "flashvars")]')
-    # driver.close()
-    return player_object
-
-
-def get_links_for_episode_in_season(driver, player_object, season, episode):
-    # todo add login, grep all green elements
-    # driver = webdriver.PhantomJS(
-    #     'f:\QA\installed\phantomJS_with_flash\phantomjs.exe')  # phantomjs with flash support
-    link_pattern = r'https?://[^\s<>"]+'
-    # driver.get(url)
-    # player_object = driver.find_element_by_xpath('//param[contains(@name, "flashvars")]')
-    for item in player_object:
-        playlist_link = re.compile(link_pattern).findall(player_object.get_attribute('value'))
-        # last_update_text = driver.find_element_by_xpath('//font[contains(@style, "font-weight:bold;font-size:18px")]').text.strip()  # todo filter multiple series
-        driver.get(playlist_link)
-        playlist_data = json.loads(driver.find_element_by_xpath('//body').text.strip())
-        # pdb.set_trace()
-        #episode_links = re.compile(link_pattern).findall(playlist_data[u'playlist'][episode - 1]['file'])
-        # episode_links = re.compile(link_pattern).findall(playlist_data[u'playlist'][season - 1]['playlist'][episode - 1]['file'])
-        # parts = str(episode_links[0]).strip('"/"')
-    driver.close()
-    print playlist_data
-    # print episode_links
-
-season = 1
-episode = 8
-url = 'http://www.online-life.me/4423-morskaya-policiya-novyy-orlean-2014.html'
-driver = Browser().driver
-pdata = get_player_object(driver, url)
-
-print get_links_for_episode_in_season(driver, pdata, season, episode)
-
-print get_links_for_episode_in_season(driver, url, season, episode)
-"""
+        return serials_links

@@ -4,7 +4,8 @@ import datetime
 import re
 import urllib
 from lxml import etree
-from tests_more import Profiler
+from tests_more import Profiler, get_link as get_playlist_links, timer
+from workplace_selenium import BrowserPhantomJS
 
 __author__ = 'dein0s'
 
@@ -95,7 +96,7 @@ def xml_track_factory(episodes):
         xml_id_extension = etree.Element('{%s}%s' % (vlc, 'id'))
         xml_id_extension.text = str(counter).decode('utf-8')
         xml_option_extension = etree.Element('{%s}%s' % (vlc, 'option'))
-        xml_option_extension.text = 'network-caching=2000'
+        xml_option_extension.text = 'network-caching=3000'
         xml_extension_track.append(xml_id_extension)
         xml_extension_track.append(xml_option_extension)
         xml_item_extension = etree.Element('{%s}%s' % (vlc, 'item'), tid=str(counter).decode('utf-8'))
@@ -106,12 +107,21 @@ def xml_track_factory(episodes):
     return output
 
 
+@timer
 def test_run():
-    with Profiler():
-        link = get_link()
-    with Profiler():
-        data = get_single_serial_data(link, False)
-    with Profiler():
-        return xml_track_factory(data)
+    # url1 = 'http://www.online-life.me/1136-elementarno-2012.html'
+    # url2 = 'http://www.online-life.me/1253-morskaya-policiya-los-andzheles.html'
+    # url3 = 'http://www.online-life.me/783-mentalist-onlayn.html'
+    # url4 = 'http://www.online-life.me/1173-strela-2012.html'
+    # url5 = 'http://www.online-life.me/296-kasl-online-all-seasons.html'
+    # url6 = 'http://www.online-life.me/4423-morskaya-policiya-novyy-orlean-2014.html'
+    # with Profiler:
+    urls = BrowserPhantomJS().get_serials_links()
+# with Profiler:
+    link = get_playlist_links(urls)
+# with Profiler:
+    data = get_multiple_serials_data(link, True)
+    # print data
+    return xml_track_factory(data)
 
 test_run()
