@@ -13,7 +13,7 @@ from waiting import wait as wait_lib
 class Browser(object):
 
     def __init__(self):
-        self.driver = webdriver.PhantomJS('f:\QA\installed\phantomJS_with_flash\phantomjs.exe')
+        self.driver = webdriver.PhantomJS('phantomjs.exe')
         # self.driver = webdriver.Firefox()
         self.main_url = 'http://www.online-life.me/'
         self.fav_url = 'http://www.online-life.me/favorites/'
@@ -112,7 +112,7 @@ class Browser(object):
         # # print episode_links
 
 
-print Browser().get_links_for_episode_in_season()
+# print Browser().get_links_for_episode_in_season()
 
 """
 def get_player_object(driver, url):

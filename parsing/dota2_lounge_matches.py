@@ -4,7 +4,7 @@ from selenium import webdriver
 __author__ = 'dein0s'
 
 
-class Dota2Lounge(TestCase):
+class Dota2Lounge(TestCase):  # todo rework, deprecate TestCase class
 
     def test_matches(self):
         driver = webdriver.PhantomJS('f:\QA\installed\phantomJS\phantomjs.exe')
