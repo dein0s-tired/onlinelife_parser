@@ -10,18 +10,18 @@ from workplace_selenium import BrowserPhantomJS
 __author__ = 'dein0s'
 
 
-def get_link():
-    url = 'http://www.online-life.me/2377-bruklin-9-9-2013.html'
-    url_pattern = r'https?://[^\s<>"]+'
-    playlist_pattern = 'all_s.txt'
-    txt = urllib.urlopen(url).read()
-    links = re.compile(url_pattern).findall(txt)
-    for single_link in links:
-        if single_link.find(playlist_pattern) > -1:
-            return single_link
+# def get_link():
+#     url = 'http://www.online-life.me/783-mentalist-onlayn.html'
+#     url_pattern = r'https?://[^\s<>"]+'
+#     playlist_pattern = 'all_s.txt'
+#     txt = urllib.urlopen(url).read()
+#     links = re.compile(url_pattern).findall(txt)
+#     for single_link in links:
+#         if single_link.find(playlist_pattern) > -1:
+#             return single_link
 
 
-def get_single_serial_data(serial_playlist_url, only_last_episode=True):
+def get_single_serial_data(serial_playlist_url, get_first=True, only_last_episode=True):
     all_serial_episodes = []
     last_serial_episode = []
     if type(serial_playlist_url) is str:
@@ -29,13 +29,29 @@ def get_single_serial_data(serial_playlist_url, only_last_episode=True):
         if 'playlist' not in serial_data['playlist'][0].keys():  # one season
             season = serial_data['playlist']
             for episode in season:
-                all_serial_episodes.append([episode['comment'], episode['file']])
+                has_two_links = episode['file'].find(' or ')
+                episode_title = episode['comment']
+                episode_file = episode['file']
+                first_link = episode_file.split(' or ')[0]
+                second_link = episode_file.split(' or ')[1]
+                if has_two_links != -1:
+                    all_serial_episodes.append([episode_title, first_link if get_first else second_link])
+                else:
+                    all_serial_episodes.append([episode_title, episode_file])
         else:
             seasons = serial_data['playlist']
             for season in seasons:
                 episodes = season['playlist']
                 for episode in episodes:
-                    all_serial_episodes.append([episode['comment'], episode['file']])
+                    has_two_links = episode['file'].find(' or ')
+                    episode_title = episode['comment']
+                    episode_file = episode['file']
+                    first_link = episode_file.split(' or ')[0]
+                    second_link = episode_file.split(' or ')[1]
+                    if has_two_links != -1:
+                        all_serial_episodes.append([episode_title, first_link if get_first else second_link])
+                    else:
+                        all_serial_episodes.append([episode_title, episode_file])
         if only_last_episode:
             last_serial_episode.append(all_serial_episodes[-1])
             return last_serial_episode
@@ -116,12 +132,15 @@ def test_run():
     # url5 = 'http://www.online-life.me/296-kasl-online-all-seasons.html'
     # url6 = 'http://www.online-life.me/4423-morskaya-policiya-novyy-orlean-2014.html'
     # with Profiler:
-    urls = BrowserPhantomJS().get_serials_links()
-# with Profiler:
-    link = get_playlist_links(urls)
-# with Profiler:
-    data = get_multiple_serials_data(link, True)
-    # print data
+    # urls = BrowserPhantomJS().get_serials_links()
+    # urls = ['http://www.online-life.me/4825-operaciya-cvet-nacii-2004.html', '']
+    # link = get_playlist_links(urls)
+    # url = 'http://www.online-life.me/4279-skorpion-2014.html'
+    # urls = [url]
+    # link = get_playlist_links(urls)  # todo smth is wrong here
+    link = 'http://www.online-life.me/pls3/0a254cb678c8c45ecfe232653f4c9d3b/qqeWnK2nlo-kmrOklZyjpJiRmd3x65Pb7eqfjw/pl_skorpion.2014_all_s.txt'
+    # todo execute from cmd with args
+    data = get_single_serial_data(serial_playlist_url=link, get_first=True, only_last_episode=False)
     return xml_track_factory(data)
 
 test_run()
