@@ -1,11 +1,11 @@
 # coding=utf-8
 import ast
 import datetime
-import re
 import urllib
 from lxml import etree
-from tests_more import Profiler, get_link as get_playlist_links, timer
-from workplace_selenium import BrowserPhantomJS
+
+from tests_more import timer
+
 
 __author__ = 'dein0s'
 
